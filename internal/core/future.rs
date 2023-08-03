@@ -52,9 +52,9 @@ impl<T> FutureRunner<T> {
 // We may access the finished value from another thread only if T is Send
 // (because JoinHandle only implement Send if T:Send)
 #[allow(unsafe_code)]
-unsafe impl<T> Send for FutureRunner<T> {}
+unsafe impl<T: Send> Send for FutureRunner<T> {}
 #[allow(unsafe_code)]
-unsafe impl<T> Sync for FutureRunner<T> {}
+unsafe impl<T: Sync> Sync for FutureRunner<T> {}
 
 impl<T: 'static> Wake for FutureRunner<T> {
     fn wake(self: alloc::sync::Arc<Self>) {
