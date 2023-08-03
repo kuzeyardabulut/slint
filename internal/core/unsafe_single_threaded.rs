@@ -30,8 +30,8 @@ impl<T> FakeThreadStorage<T> {
     }
 }
 // Safety: the unsafe_single_threaded feature means we will only be called from a single thread
-unsafe impl<T, F> Send for FakeThreadStorage<T, F> {}
-unsafe impl<T, F> Sync for FakeThreadStorage<T, F> {}
+unsafe impl<T: Send, F> Send for FakeThreadStorage<T, F> {}
+unsafe impl<T: Send, F> Sync for FakeThreadStorage<T, F> {}
 
 pub use thread_local_ as thread_local;
 
@@ -49,5 +49,5 @@ impl<T> OnceCell<T> {
 }
 
 // Safety: the unsafe_single_threaded feature means we will only be called from a single thread
-unsafe impl<T> Send for OnceCell<T> {}
-unsafe impl<T> Sync for OnceCell<T> {}
+unsafe impl<T: Send> Send for OnceCell<T> {}
+unsafe impl<T: Sync> Sync for OnceCell<T> {}
